@@ -1,0 +1,82 @@
+<div class="container">
+  <header class="page-header">
+    <h1 class="page-title">Últimas Notícias</h1>
+    <form action="/" method="GET" class="search-form" role="search" aria-label="Buscar artigos">
+      <label for="search-input" class="sr-only">Buscar</label>
+      <input type="search" id="search-input" name="search" placeholder="Buscar artigos..." value="<%= query.search || '' %>" aria-label="Termo de busca" />
+      <label for="filter-category" class="sr-only">Categoria</label>
+      <select id="filter-category" name="category" aria-label="Filtrar por categoria">
+        <option value="">Todas as categorias</option>
+        <% categories.forEach(cat => { %>
+          <option value="<%= cat.id %>" <%= query.category == cat.id ? 'selected' : '' %>><%= cat.name %></option>
+        <% }) %>
+      </select>
+      <label for="filter-sort" class="sr-only">Ordenar por</label>
+      <select id="filter-sort" name="sort" aria-label="Ordenar resultados">
+        <option value="publishedAt" <%= query.sort === 'publishedAt' ? 'selected' : '' %>>Mais recentes</option>
+        <option value="viewCount" <%= query.sort === 'viewCount' ? 'selected' : '' %>>Mais lidos</option>
+        <option value="title" <%= query.sort === 'title' ? 'selected' : '' %>>Título A–Z</option>
+      </select>
+      <button type="submit" class="btn btn-primary">Buscar</button>
+      <% if (query.search || query.category) { %>
+        <a href="/" class="btn btn-outline">Limpar</a>
+      <% } %>
+    </form>
+  </header>
+
+ 
+
+  <% if (articles.length === 0) { %>
+    <section class="empty-state" aria-live="polite">
+      <p>Nenhum artigo encontrado.</p>
+    </section>
+  <% } else { %>
+    <section class="articles-section" aria-label="Lista de artigos">
+      <ul class="articles-grid" role="list">
+        <% articles.forEach(article => { %>
+          <li>
+            <article class="card">
+              <% if (article.coverImage) { %>
+                <a href="/artigos/<%= article.slug %>" class="card-media">
+                  <img src="<%= article.coverImage %>" alt="" loading="lazy" width="400" height="220" />
+                </a>
+              <% } else { %>
+                <div class="card-media card-media--placeholder" aria-hidden="true"></div>
+              <% } %>
+              <div class="card-body">
+                <div class="card-meta">
+                  <a href="/categoria/<%= article.category.slug %>" class="category-label"><%= article.category.name %></a>
+                  <time class="card-date" datetime="<%= article.publishedAt ? new Date(article.publishedAt).toISOString() : '' %>">
+                    <%= article.publishedAt ? new Date(article.publishedAt).toLocaleDateString('pt-BR') : '' %>
+                  </time>
+                </div>
+                <h2 class="card-title">
+                  <a href="/artigos/<%= article.slug %>"><%= article.title %></a>
+                </h2>
+                <% if (article.subtitle) { %>
+                  <p class="card-subtitle"><%= article.subtitle %></p>
+                <% } %>
+                <footer class="card-footer">
+                  <span class="card-author">Por <%= article.author.name %></span>
+                  <span class="card-views" aria-label="Visualizações">👁 <%= article.viewCount %></span>
+                </footer>
+              </div>
+            </article>
+          </li>
+        <% }) %>
+      </ul>
+    </section>
+
+    <% if (totalPages > 1) { %>
+      <nav class="pagination" aria-label="Paginação">
+        <% if (currentPage > 1) { %>
+          <a href="?page=<%= currentPage - 1 %>&search=<%= query.search || '' %>&category=<%= query.category || '' %>&sort=<%= query.sort || '' %>" class="btn btn-outline" rel="prev">← Anterior</a>
+        <% } %>
+        <span class="pagination-info">Página <%= currentPage %> de <%= totalPages %> · <%= total %> artigos</span>
+        <% if (currentPage < totalPages) { %>
+          <a href="?page=<%= currentPage + 1 %>&search=<%= query.search || '' %>&category=<%= query.category || '' %>&sort=<%= query.sort || '' %>" class="btn btn-outline" rel="next">Próxima →</a>
+        <% } %>
+      </nav>
+    <% } %>
+  <% } %>
+</div>

@@ -1,0 +1,9 @@
+<header class="admin-topbar">
+  <div class="topbar-title"><h2><%= typeof title !== 'undefined' ? title : 'Admin' %></h2></div>
+  <div class="topbar-user">
+    <span>👤 <%= locals.currentUser ? locals.currentUser.name : '' %></span>
+    <span class="role-badge role-<%= locals.currentUser ? locals.currentUser.role : '' %>">
+      <%= locals.currentUser ? locals.currentUser.role : '' %>
+    </span>
+  </div>
+</header>

@@ -1,0 +1,27 @@
+<div class="dashboard">
+  <h2>Bem-vindo(a), <%= locals.currentUser ? locals.currentUser.name : '' %>!</h2>
+
+  <div class="dashboard-cards">
+    <div class="dash-card">
+      <h3>📄 Artigos</h3>
+      <p>Gerencie seus artigos publicados e rascunhos.</p>
+      <a href="/admin/artigos" class="btn btn-primary">Ver artigos</a>
+    </div>
+    <div class="dash-card">
+      <h3>✏️ Novo Artigo</h3>
+      <p>Crie e publique um novo artigo agora.</p>
+      <a href="/admin/artigos/novo" class="btn btn-success">Criar artigo</a>
+    </div>
+    <div class="dash-card">
+      <h3>🌐 Site Público</h3>
+      <p>Veja como o site aparece para os visitantes.</p>
+      <a href="/" target="_blank" class="btn btn-secondary">Ver site</a>
+    </div>
+  </div>
+
+  <div class="dashboard-extra">
+    <button type="button" class="btn btn-outline btn-disabled">
+      ➕ Cadastrar novo editor / jornalista
+    </button>
+  </div>
+</div>

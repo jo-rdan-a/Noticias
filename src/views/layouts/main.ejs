@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title><%= title %> | Notícias</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Source+Sans+3:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/css/style.css" />
+</head>
+<body>
+  <header class="site-header">
+    <%- include('../partials/navbar') %>
+  </header>
+
+  <% if (typeof messages !== 'undefined') { %>
+    <% if (messages.success && messages.success.length) { %>
+      <div class="alert alert-success" role="status"><%= messages.success[0] %></div>
+    <% } %>
+    <% if (messages.error && messages.error.length) { %>
+      <div class="alert alert-error" role="alert"><%= messages.error[0] %></div>
+    <% } %>
+  <% } %>
+
+  <main class="main-content" id="main">
+    <%- body %>
+  </main>
+
+  <footer class="site-footer">
+    <%- include('../partials/footer') %>
+  </footer>
+  <script src="/js/main.js"></script>
+</body>
+</html>

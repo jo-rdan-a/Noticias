@@ -1,0 +1,10 @@
+<div class="container error-page">
+  <div class="error-card">
+    <h1 class="error-code"><%= statusCode %></h1>
+    <h2 class="error-title">
+      <% if (statusCode === 404) { %>Página não encontrada<% } else { %>Ocorreu um erro<% } %>
+    </h2>
+    <p class="error-message"><%= message %></p>
+    <a href="/" class="btn btn-primary">← Voltar ao início</a>
+  </div>
+</div>

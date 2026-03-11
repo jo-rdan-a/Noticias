@@ -1,0 +1,68 @@
+<article class="article-page container" itemscope itemtype="https://schema.org/NewsArticle">
+  <nav class="breadcrumb" aria-label="Navegação breadcrumb">
+    <a href="/">Início</a>
+    <span class="breadcrumb-sep" aria-hidden="true">›</span>
+    <a href="/categoria/<%= article.category.slug %>"><%= article.category.name %></a>
+    <span class="breadcrumb-sep" aria-hidden="true">›</span>
+    <span><%= article.title %></span>
+  </nav>
+
+  <header class="article-header">
+    <a href="/categoria/<%= article.category.slug %>" class="category-label"><%= article.category.name %></a>
+    <h1 class="article-title" itemprop="headline"><%= article.title %></h1>
+    <% if (article.subtitle) { %>
+      <p class="article-subtitle" itemprop="description"><%= article.subtitle %></p>
+    <% } %>
+    <div class="article-meta">
+      <span>Por <strong itemprop="author"><%= article.author.name %></strong></span>
+      <span class="meta-sep" aria-hidden="true">·</span>
+      <time datetime="<%= new Date(article.publishedAt).toISOString() %>" itemprop="datePublished">
+        <%= new Date(article.publishedAt).toLocaleDateString('pt-BR', { day: '2-digit', month: 'long', year: 'numeric' }) %>
+      </time>
+      <span class="meta-sep" aria-hidden="true">·</span>
+      <span aria-label="Visualizações">👁 <%= article.viewCount %> visualizações</span>
+    </div>
+    <% if (article.tags && article.tags.length > 0) { %>
+      <ul class="tags" role="list">
+        <% article.tags.forEach(tag => { %>
+          <li><span class="tag-chip"><%= tag.name %></span></li>
+        <% }) %>
+      </ul>
+    <% } %>
+  </header>
+
+  <% if (article.coverImage) { %>
+    <figure class="article-figure">
+      <img src="<%= article.coverImage %>" alt="" class="article-cover" width="860" height="480" />
+    </figure>
+  <% } %>
+
+  <div class="article-content" itemprop="articleBody">
+    <%- article.content.replace(/\n/g, '<br>') %>
+  </div>
+
+  <% if (related && related.length > 0) { %>
+    <section class="related" aria-labelledby="related-heading">
+      <h2 id="related-heading" class="related-title">Artigos relacionados</h2>
+      <ul class="articles-grid articles-grid--small" role="list">
+        <% related.forEach(rel => { %>
+          <li>
+            <article class="card card--compact">
+              <div class="card-body">
+                <a href="/categoria/<%= rel.category.slug %>" class="category-label"><%= rel.category.name %></a>
+                <h3 class="card-title card-title--small">
+                  <a href="/artigos/<%= rel.slug %>"><%= rel.title %></a>
+                </h3>
+                <span class="card-author">Por <%= rel.author.name %></span>
+              </div>
+            </article>
+          </li>
+        <% }) %>
+      </ul>
+    </section>
+  <% } %>
+
+  <p class="back-link">
+    <a href="/" class="btn btn-outline">← Voltar para o início</a>
+  </p>
+</article>

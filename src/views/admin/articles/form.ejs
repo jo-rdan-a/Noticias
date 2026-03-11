@@ -1,0 +1,100 @@
+<div class="article-form-page">
+  <div class="page-header">
+    <h2><%= article ? 'Editar Artigo' : 'Novo Artigo' %></h2>
+    <a href="/admin/artigos" class="btn btn-secondary">← Voltar</a>
+  </div>
+
+  <form
+    action="<%= article ? `/admin/artigos/${article.id}?_method=PUT` : '/admin/artigos' %>"
+    method="POST"
+    enctype="multipart/form-data"
+    class="article-form"
+  >
+    <div class="form-grid">
+      <!-- Left column -->
+      <div class="form-main">
+        <div class="form-group">
+          <label for="title">Título *</label>
+          <input type="text" id="title" name="title" required maxlength="200"
+                 value="<%= article ? article.title : '' %>" placeholder="Título do artigo" />
+        </div>
+
+        <div class="form-group">
+          <label for="subtitle">Subtítulo</label>
+          <input type="text" id="subtitle" name="subtitle" maxlength="300"
+                 value="<%= article ? (article.subtitle || '') : '' %>" placeholder="Subtítulo opcional" />
+        </div>
+
+        <div class="form-group">
+          <label for="content">Conteúdo *</label>
+          <textarea id="content" name="content" rows="15" required
+                    placeholder="Escreva o conteúdo do artigo..."><%= article ? article.content : '' %></textarea>
+        </div>
+      </div>
+
+      <!-- Right column -->
+      <div class="form-sidebar">
+        <div class="form-group">
+          <label for="status">Status *</label>
+          <select id="status" name="status" onchange="toggleSchedule(this.value)">
+            <option value="draft" <%= (!article || article.status === 'draft') ? 'selected' : '' %>>Rascunho</option>
+            <option value="scheduled" <%= (article && article.status === 'scheduled') ? 'selected' : '' %>>Agendado</option>
+            <option value="published" <%= (article && article.status === 'published') ? 'selected' : '' %>>Publicado</option>
+          </select>
+        </div>
+
+        <div class="form-group" id="schedule-group" style="display: <%= (article && article.status === 'scheduled') ? 'block' : 'none' %>">
+          <label for="publishedAt">Data de Publicação</label>
+          <input type="datetime-local" id="publishedAt" name="publishedAt"
+                 value="<%= article && article.publishedAt ? new Date(article.publishedAt).toISOString().slice(0,16) : '' %>" />
+        </div>
+
+        <div class="form-group">
+          <label for="category">Categoria *</label>
+          <select id="category" name="category" required>
+            <option value="">Selecione...</option>
+            <% categories.forEach(cat => { %>
+              <option value="<%= cat.id %>"
+                      <%= (article && (article.categoryId === cat.id || (article.category && article.category.id === cat.id))) ? 'selected' : '' %>>
+                <%= cat.name %>
+              </option>
+            <% }) %>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label>Tags</label>
+          <div class="tags-checkboxes">
+            <% tags.forEach(tag => { %>
+              <label class="tag-checkbox">
+                <input type="checkbox" name="tags" value="<%= tag.id %>"
+                  <%= (article && article.tags && article.tags.some(t => (t.id || t) === tag.id)) ? 'checked' : '' %> />
+                <%= tag.name %>
+              </label>
+            <% }) %>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="coverImage">Imagem de Capa</label>
+          <% if (article && article.coverImage) { %>
+            <img src="<%= article.coverImage %>" alt="Capa atual" class="cover-preview" />
+            <p class="hint">Nova imagem substituirá a atual.</p>
+          <% } %>
+          <input type="file" id="coverImage" name="coverImage" accept="image/*" />
+        </div>
+
+        <button type="submit" class="btn btn-success btn-full">
+          <%= article ? 'Salvar Alterações' : 'Criar Artigo' %>
+        </button>
+      </div>
+    </div>
+  </form>
+</div>
+
+<script>
+function toggleSchedule(status) {
+  document.getElementById('schedule-group').style.display =
+    status === 'scheduled' ? 'block' : 'none';
+}
+</script>

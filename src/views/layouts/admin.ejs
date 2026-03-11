@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title><%= title %> | Admin - Mini-CMS</title>
+  <link rel="stylesheet" href="/css/style.css" />
+  <link rel="stylesheet" href="/css/admin.css" />
+</head>
+<body class="admin-body">
+  <div class="admin-wrapper">
+    <%- include('../partials/sidebar') %>
+    <div class="admin-main">
+      <%- include('../partials/admin-topbar') %>
+
+      <div class="admin-content">
+        <% if (typeof messages !== 'undefined') { %>
+          <% if (messages.success && messages.success.length) { %>
+            <div class="alert alert-success"><%= messages.success[0] %></div>
+          <% } %>
+          <% if (messages.error && messages.error.length) { %>
+            <div class="alert alert-error"><%= messages.error[0] %></div>
+          <% } %>
+        <% } %>
+
+        <%- body %>
+      </div>
+    </div>
+  </div>
+  <script src="/js/main.js"></script>
+  <script src="/js/admin.js"></script>
+</body>
+</html>

@@ -1,0 +1,85 @@
+<div class="admin-articles">
+  <div class="page-header">
+    <h2>Artigos <span class="badge"><%= total %></span></h2>
+    <a href="/admin/artigos/novo" class="btn btn-success">+ Novo Artigo</a>
+  </div>
+
+  <!-- Filters -->
+  <form action="/admin/artigos" method="GET" class="filter-form">
+    <input type="text" name="search" placeholder="Buscar..." value="<%= query.search || '' %>" />
+    <select name="status">
+      <option value="">Todos os status</option>
+      <option value="draft" <%= query.status === 'draft' ? 'selected' : '' %>>Rascunho</option>
+      <option value="scheduled" <%= query.status === 'scheduled' ? 'selected' : '' %>>Agendado</option>
+      <option value="published" <%= query.status === 'published' ? 'selected' : '' %>>Publicado</option>
+    </select>
+    <select name="category">
+      <option value="">Todas categorias</option>
+      <% categories.forEach(cat => { %>
+        <option value="<%= cat.id %>" <%= query.category == cat.id ? 'selected' : '' %>><%= cat.name %></option>
+      <% }) %>
+    </select>
+    <button type="submit" class="btn btn-primary">Filtrar</button>
+    <a href="/admin/artigos" class="btn btn-secondary">Limpar</a>
+  </form>
+
+  <!-- Table -->
+  <% if (articles.length === 0) { %>
+    <div class="empty-state">Nenhum artigo encontrado.</div>
+  <% } else { %>
+    <table class="admin-table">
+      <thead>
+        <tr>
+          <th>Título</th>
+          <th>Autor</th>
+          <th>Categoria</th>
+          <th>Status</th>
+          <th>Publicação</th>
+          <th>Visualizações</th>
+          <th>Ações</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% articles.forEach(article => { %>
+          <tr>
+            <td><%= article.title %></td>
+            <td><%= article.author ? article.author.name : '-' %></td>
+            <td><%= article.category ? article.category.name : '-' %></td>
+            <td>
+              <span class="status-badge status-<%= article.status %>">
+                <%= article.status === 'draft' ? 'Rascunho' : article.status === 'scheduled' ? 'Agendado' : 'Publicado' %>
+              </span>
+            </td>
+            <td>
+              <%= article.publishedAt ? new Date(article.publishedAt).toLocaleDateString('pt-BR') : '-' %>
+            </td>
+            <td><%= article.viewCount %></td>
+            <td class="actions">
+              <% if (article.status === 'published') { %>
+                <a href="/artigos/<%= article.slug %>" target="_blank" class="btn-action btn-view" title="Ver">👁</a>
+              <% } %>
+              <a href="/admin/artigos/<%= article.id %>/editar" class="btn-action btn-edit" title="Editar">✏️</a>
+              <form action="/admin/artigos/<%= article.id %>?_method=DELETE" method="POST"
+                    onsubmit="return confirm('Confirma a exclusão?');" style="display:inline">
+                <button type="submit" class="btn-action btn-delete" title="Excluir">🗑️</button>
+              </form>
+            </td>
+          </tr>
+        <% }) %>
+      </tbody>
+    </table>
+
+    <!-- Pagination -->
+    <% if (totalPages > 1) { %>
+      <div class="pagination">
+        <% if (currentPage > 1) { %>
+          <a href="?page=<%= currentPage - 1 %>" class="btn btn-secondary">← Anterior</a>
+        <% } %>
+        <span>Página <%= currentPage %> de <%= totalPages %></span>
+        <% if (currentPage < totalPages) { %>
+          <a href="?page=<%= currentPage + 1 %>" class="btn btn-secondary">Próxima →</a>
+        <% } %>
+      </div>
+    <% } %>
+  <% } %>
+</div>
