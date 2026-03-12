@@ -17,9 +17,9 @@
         <option value="viewCount" <%= query.sort === 'viewCount' ? 'selected' : '' %>>Mais lidos</option>
         <option value="title" <%= query.sort === 'title' ? 'selected' : '' %>>Título A–Z</option>
       </select>
-      <button type="submit" class="btn btn-primary">Buscar</button>
+      <button type="submit" class="btn btn-primary"><i class="hgi-stroke hgi-search-01" aria-hidden="true"></i> Buscar</button>
       <% if (query.search || query.category) { %>
-        <a href="/" class="btn btn-outline">Limpar</a>
+        <a href="/" class="btn btn-outline btn-clear">Limpar</a>
       <% } %>
     </form>
   </header>
@@ -58,7 +58,7 @@
                 <% } %>
                 <footer class="card-footer">
                   <span class="card-author">Por <%= article.author.name %></span>
-                  <span class="card-views" aria-label="Visualizações">👁 <%= article.viewCount %></span>
+                  <span class="card-views" aria-label="Visualizações"><i class="hgi-stroke hgi-view" aria-hidden="true"></i> <%= article.viewCount %></span>
                 </footer>
               </div>
             </article>

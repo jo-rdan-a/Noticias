@@ -6,15 +6,16 @@
   <title><%= title %> | Mini-CMS</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Source+Sans+3:wght@400;600;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Monda:wght@400;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdn.hugeicons.com/font/hgi-stroke-rounded.css" />
   <link rel="stylesheet" href="/css/style.css" />
 </head>
 <body class="auth-body">
   <div class="auth-container">
     <div class="auth-card">
       <div class="auth-logo">
-        <h1>Notícias</h1>
-        <p>Sistema de Gerenciamento de Notícias</p>
+        <img src="/img/logo.png" alt="" class="auth-logo-icon" onerror="this.style.display='none'" />
+        <span class="auth-logo-title">BraiNews</span>
       </div>
 
       <% if (typeof messages !== 'undefined') { %>

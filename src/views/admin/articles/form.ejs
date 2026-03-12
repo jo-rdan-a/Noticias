@@ -69,7 +69,8 @@
               <label class="tag-checkbox">
                 <input type="checkbox" name="tags" value="<%= tag.id %>"
                   <%= (article && article.tags && article.tags.some(t => (t.id || t) === tag.id)) ? 'checked' : '' %> />
-                <%= tag.name %>
+                <span class="tag-checkbox-icon" aria-hidden="true"></span>
+                <span class="tag-checkbox-label"><%= tag.name %></span>
               </label>
             <% }) %>
           </div>
@@ -77,11 +78,20 @@
 
         <div class="form-group">
           <label for="coverImage">Imagem de Capa</label>
-          <% if (article && article.coverImage) { %>
-            <img src="<%= article.coverImage %>" alt="Capa atual" class="cover-preview" />
-            <p class="hint">Nova imagem substituirá a atual.</p>
-          <% } %>
-          <input type="file" id="coverImage" name="coverImage" accept="image/*" />
+          <div class="cover-upload-wrap">
+            <input type="file" id="coverImage" name="coverImage" accept="image/*" class="cover-upload-input" />
+            <label for="coverImage" class="cover-upload-zone" id="coverUploadZone">
+              <i class="hgi-stroke hgi-upload" aria-hidden="true"></i>
+              <span class="cover-upload-text">Clique para adicionar imagem</span>
+            </label>
+            <% if (article && article.coverImage) { %>
+              <div class="cover-upload-current" id="coverCurrent">
+                <img src="<%= article.coverImage %>" alt="Capa atual" class="cover-preview" />
+                <p class="hint">Nova imagem substituirá a atual.</p>
+              </div>
+            <% } %>
+            <div class="cover-upload-preview" id="coverPreview" style="display: none;"></div>
+          </div>
         </div>
 
         <button type="submit" class="btn btn-success btn-full">
@@ -97,4 +107,34 @@ function toggleSchedule(status) {
   document.getElementById('schedule-group').style.display =
     status === 'scheduled' ? 'block' : 'none';
 }
+
+(function() {
+  var coverInput = document.getElementById('coverImage');
+  var coverZone = document.getElementById('coverUploadZone');
+  var coverPreview = document.getElementById('coverPreview');
+  var coverCurrent = document.getElementById('coverCurrent');
+  if (!coverInput || !coverZone) return;
+  coverInput.addEventListener('change', function() {
+    var file = this.files[0];
+    if (coverPreview) {
+      coverPreview.innerHTML = '';
+      coverPreview.style.display = 'none';
+      if (file && file.type.indexOf('image/') === 0) {
+        var reader = new FileReader();
+        reader.onload = function(e) {
+          var img = document.createElement('img');
+          img.src = e.target.result;
+          img.alt = 'Preview';
+          img.className = 'cover-preview';
+          coverPreview.appendChild(img);
+          coverPreview.style.display = 'block';
+          if (coverCurrent) coverCurrent.style.display = 'none';
+        };
+        reader.readAsDataURL(file);
+      } else if (coverCurrent) {
+        coverCurrent.style.display = 'block';
+      }
+    }
+  });
+})();
 </script>

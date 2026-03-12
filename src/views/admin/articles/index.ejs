@@ -1,7 +1,7 @@
 <div class="admin-articles">
   <div class="page-header">
     <h2>Artigos <span class="badge"><%= total %></span></h2>
-    <a href="/admin/artigos/novo" class="btn btn-success">+ Novo Artigo</a>
+    <a href="/admin/artigos/novo" class="btn btn-success"><i class="hgi-stroke hgi-add-01" aria-hidden="true"></i> Novo Artigo</a>
   </div>
 
   <!-- Filters -->
@@ -19,8 +19,8 @@
         <option value="<%= cat.id %>" <%= query.category == cat.id ? 'selected' : '' %>><%= cat.name %></option>
       <% }) %>
     </select>
-    <button type="submit" class="btn btn-primary">Filtrar</button>
-    <a href="/admin/artigos" class="btn btn-secondary">Limpar</a>
+    <button type="submit" class="btn btn-primary"><i class="hgi-stroke hgi-filter-01" aria-hidden="true"></i> Filtrar</button>
+    <a href="/admin/artigos" class="btn btn-secondary"><i class="hgi-stroke hgi-cancel-01" aria-hidden="true"></i> Limpar</a>
   </form>
 
   <!-- Table -->
@@ -56,12 +56,12 @@
             <td><%= article.viewCount %></td>
             <td class="actions">
               <% if (article.status === 'published') { %>
-                <a href="/artigos/<%= article.slug %>" target="_blank" class="btn-action btn-view" title="Ver">👁</a>
+                <a href="/artigos/<%= article.slug %>" target="_blank" class="btn-action btn-view" title="Ver"><i class="hgi-stroke hgi-view" aria-hidden="true"></i></a>
               <% } %>
-              <a href="/admin/artigos/<%= article.id %>/editar" class="btn-action btn-edit" title="Editar">✏️</a>
+              <a href="/admin/artigos/<%= article.id %>/editar" class="btn-action btn-edit" title="Editar"><i class="hgi-stroke hgi-edit-02" aria-hidden="true"></i></a>
               <form action="/admin/artigos/<%= article.id %>?_method=DELETE" method="POST"
                     onsubmit="return confirm('Confirma a exclusão?');" style="display:inline">
-                <button type="submit" class="btn-action btn-delete" title="Excluir">🗑️</button>
+                <button type="submit" class="btn-action btn-delete" title="Excluir"><i class="hgi-stroke hgi-trash-01" aria-hidden="true"></i></button>
               </form>
             </td>
           </tr>
