@@ -57,6 +57,7 @@ app.use((req, res, next) => {
 const uploadsDir = path.join(__dirname, '../public/uploads');
 if (!fs.existsSync(uploadsDir)) fs.mkdirSync(uploadsDir, { recursive: true });
 app.use(express.static(path.join(__dirname, '../public')));
+app.get('/favicon.ico', (req, res) => res.redirect(302, '/img/logo.png'));
 
 app.use('/', require('./routes/public'));
 app.use('/auth', require('./routes/auth'));

@@ -3,6 +3,9 @@
   --color-menu-text: #B1A668;
   --color-btn-primary: #20383C;
   --color-btn-clear: #F1E2C1;
+  /* Fundo neutro (tags, área de upload) - sem tom amarelado */
+  --color-form-neutral: #f1f5f9;
+  --color-form-neutral-hover: #e2e8f0;
 }
 
 /* ==================== RESET & BASE ==================== */
